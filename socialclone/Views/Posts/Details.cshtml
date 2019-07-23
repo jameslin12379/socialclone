@@ -1,0 +1,127 @@
+@using System.Data;
+
+@{
+    ViewData["Title"] = "Post";
+}
+
+<div class="alert alert-success @ViewData["35"]" role="alert">
+    Post updated.
+</div>
+
+<div class="card m-auto mb-15" style="width: 25rem;">
+    <img src="@ViewData["imageurl"]" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@ViewData["name"]</h5>
+            <div class="mb-15"><a href="/users/details/@ViewData["userid"]" class="mr-3"><span>@ViewData["rusername"]</span></a><a href="/topics/details/@ViewData["topicid"]"><span>@ViewData["topicname"]</span></a></div>
+        <p class="card-text">@ViewData["description"]</p>
+        <span>@ViewData["created"]</span>
+        <div class="mb-15"><span id="postlikesmodaltoggleopen" class="cursorPointer mr-3"><span id="postlikescount">@ViewData["likescount"]</span> Likes</span><span id="postcommentsmodaltoggleopen" class="cursorPointer"><span id="postcommentscount">@ViewData["commentscount"]</span> Comments</span></div>
+        @if (ViewData["idonly"] as string == ViewData["userid"] as string)
+        {
+        <a href="/posts/edit/@ViewData["rid"]" class="btn btn-light">Edit post</a>
+        <button id="deletepostmodaltoggleopen" class="btn btn-danger">Delete post</button>
+        }
+        @if (ViewData["isAuthenticated"] as string == "true")
+        {
+        <button id="postlikeunlikebutton" class="btn btn-primary">@ViewData["likedstatus"]</button>
+        }
+
+
+    </div>
+</div>
+
+@if (ViewData["isAuthenticated"] as string == "true")
+{
+<div class="card m-auto mb-15" style="width: 25rem;">
+    <div class="card-body">
+        <form id="postcommentform" method="post" action="create">
+            @Html.AntiForgeryToken()
+            <h5 class="text-center">Leave a comment</h5>
+
+            <div class="form-group">
+                <textarea class="form-control" id="postcommentformtextarea" placeholder="Description" name="description" required>@ViewData["27"]</textarea>
+            </div>
+
+            <div id="postcommentformerror" class="alert alert-danger Hidden">Description is empty.</div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+<script src="~/js/postcomment.js"></script>
+
+    }
+
+
+<div id="postlikesmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Likers</h5>
+                <button id="postlikesmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="postlikesmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="postcommentsmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comments</h5>
+                <button id="postcommentsmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="postcommentsmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/getpostlikes.js"></script>
+<script src="~/js/getpostcomments.js"></script>
+
+@if (ViewData["idonly"] as string == ViewData["userid"] as string)
+{
+<div id="deletepostmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div id="deleteprofilemodalinner" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete post</h5>
+                <button id="deletepostmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button id="deletepostbutton" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="deletepostform" class="Hidden" action="/posts/delete/@ViewData["rid"]" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit">Submit</button>
+</form>
+<script src="~/js/deletepost.js"></script>
+}
+
+<div id="datauserid" class="Hidden" data-user-id="@ViewData["idonly"]"></div>
+<div id="datarid" class="Hidden" data-r-id="@ViewData["rid"]"></div>
+
+@if (ViewData["isAuthenticated"] as string == "true")
+{
+<script src="~/js/postlikeunlike.js"></script>
+}
+
+
+
+
+
+

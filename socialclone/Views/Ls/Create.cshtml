@@ -1,0 +1,32 @@
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div class="alert alert-success " role="alert">
+    Registration completed.
+</div>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post" action="create">
+            @Html.AntiForgeryToken()
+            <h3 class="text-center">Log in</h3>
+            <div class="form-group">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email" value="@ViewData["13"]" required>
+            </div>
+
+            <div class="alert alert-danger @ViewData["11"]">Email is not found.</div>
+
+            <div class="form-group">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required>
+            </div>
+
+            <div class="alert alert-danger @ViewData["12"]">Wrong password.</div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+
+

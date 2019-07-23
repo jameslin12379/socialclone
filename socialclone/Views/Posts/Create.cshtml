@@ -1,0 +1,28 @@
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post" action="create">
+            @Html.AntiForgeryToken()
+            <h3 class="text-center">Create</h3>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title" name="name" value="@ViewData["26"]" required>
+            </div>
+
+            <div class="alert alert-danger @ViewData["23"]">Title is empty.</div>
+
+            <div class="form-group">
+                <textarea class="form-control" id="exampleInputPassword1" placeholder="Description" name="description" required>@ViewData["27"]</textarea>
+            </div>
+
+            <div class="alert alert-danger @ViewData["24"]">Description is empty.</div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+
+

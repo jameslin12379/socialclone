@@ -1,0 +1,60 @@
+@using System.Data;
+
+@{
+    ViewData["Title"] = "Topic";
+}
+
+
+<div class="card m-auto mb-15 text-center" style="width: 25rem;">
+    <img src="@ViewData["imageurl"]" id="profileImg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@ViewData["name"]</h5>
+        <p class="card-text">@ViewData["description"]</p>
+        <div class="mb-15"><span class="mr-3">@ViewData["postscount"] Posts</span><span id="topicfollowingmodaltoggleopen" class="cursorPointer"><span id="topicfollowingcount">@ViewData["followingcount"]</span> Followers</span></div>
+        @if (ViewData["isAuthenticated"] as string == "true")
+        {
+            <button id="topicfollowunfollowbutton" class="btn btn-primary">@ViewData["followedstatus"]</button>
+        }
+
+    </div>
+</div>
+
+@foreach (DataRow dr in (ViewData["posts"] as DataRowCollection))
+{
+    <div class="card m-auto mb-15" style="width: 25rem;">
+        <a href="/posts/details/@dr["id"]"><img src="@dr["imageurl"]" class="card-img-top" alt="..."></a>
+        <div class="card-body">
+            <a href="/posts/details/@dr["id"]">
+                <h5 class="card-title">@dr["name"]</h5>
+            </a>
+            <div class="mb-15"><a href="/users/details/@dr["userid"]" class="mr-3"><span>@dr["username"]</span></a><a href="/topics/details/@dr["topicid"]"><span>@dr["topicname"]</span></a></div>
+            <p class="card-text">@dr["description"]</p>
+            <span>@dr["created"]</span>
+        </div>
+    </div>
+
+}
+<div id="topicfollowingmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div id="deleteprofilemodalinner" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Topic Followers</h5>
+                <button id="topicfollowingmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="topicfollowingmodalbody" class="modal-body jsmodal">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="datatopicid" class="Hidden" data-topic-id="@ViewData["rid"]"></div>
+<script src="~/js/gettopicfollowing.js"></script>
+@if (ViewData["isAuthenticated"] as string == "true")
+{
+    <script src="~/js/topicfollowunfollow.js"></script>
+
+}

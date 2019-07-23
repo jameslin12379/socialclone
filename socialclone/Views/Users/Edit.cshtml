@@ -1,0 +1,30 @@
+
+@{
+    ViewData["Title"] = "Edit profile";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form asp-action="Edit">
+            @Html.AntiForgeryToken()
+            <h3 class="text-center">Edit profile</h3>
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleUsername1" placeholder="Username" name="username" value="@ViewData["inputusername"]" required>
+            </div>
+
+            <div class="alert alert-danger @ViewData["16"]">Username is empty.</div>
+
+            <div class="form-group">
+                <textarea class="form-control" id="exampleUsername1" placeholder="Description" name="description" required>@ViewData["description"]</textarea>
+            </div>
+
+            <div class="alert alert-danger @ViewData["17"]">Description is empty.</div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+
+

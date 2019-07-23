@@ -1,0 +1,175 @@
+@using System.Data;
+
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="alert alert-success @ViewData["21"]" role="alert">
+    Profile updated.
+</div>
+
+<div class="alert alert-success @ViewData["29"]" role="alert">
+    Post created.
+</div>
+
+<div class="alert alert-success @ViewData["36"]" role="alert">
+    Post deleted.
+</div>
+
+<div class="alert alert-success @ViewData["37"]" role="alert">
+    Comment deleted.
+</div>
+
+<div class="card m-auto mb-15 text-center" style="width: 25rem;">
+    <img src="@ViewData["imageurl"]" id="profileImg" class="card-img-top" alt="...">
+    <div class="card-body">
+        <p class="card-text">@ViewData["rusername"]</p>
+        <p class="card-text">@ViewData["description"]</p>
+        <p class="card-text">Joined @ViewData["created"]</p>
+        <div class="mb-15"><span class="mr-3">@ViewData["postscount"] Posts</span><span id="usertopicfollowingmodaltoggleopen" class="cursorPointer mr-3">@ViewData["topicscount"] Topics</span><span id="userfollowingmodaltoggleopen" class="cursorPointer mr-3">@ViewData["userfollowingcount"] Following</span><span id="userfollowersmodaltoggleopen" class="cursorPointer mr-3"><span id="userfollowerscount">@ViewData["userfollowedcount"]</span> Followers</span><span id="userlikesmodaltoggleopen" class="cursorPointer mr-3">@ViewData["likescount"] Likes</span><span id="usercommentsmodaltoggleopen" class="cursorPointer mr-3">@ViewData["commentscount"] Comments</span></div>
+
+        @if (ViewData["idonly"] as string == ViewData["rid"] as string)
+        {
+        <a href="/users/edit/@ViewData["rid"]" class="btn btn-light">Edit profile</a>
+        <button id="deleteprofilemodaltoggleopen" class="btn btn-danger">Delete profile</button>
+        }
+        @if (ViewData["isAuthenticated"] as string == "true" && ViewData["idonly"] as string != ViewData["rid"] as string)
+        {
+        <button id="userfollowunfollowbutton" class="btn btn-primary">@ViewData["followedstatus"]</button>
+        }
+    </div>
+</div>
+
+@foreach (DataRow dr in (ViewData["posts"] as DataRowCollection))
+{
+<div class="card m-auto mb-15" style="width: 25rem;">
+    <a href="/posts/details/@dr["id"]"><img src="@dr["imageurl"]" class="card-img-top" alt="..."></a>
+    <div class="card-body">
+        <a href="/posts/details/@dr["id"]">
+            <h5 class="card-title">@dr["name"]</h5>
+        </a>
+        <div class="mb-15"><a href="/users/details/@dr["userid"]" class="mr-3"><span>@dr["username"]</span></a><a href="/topics/details/@dr["topicid"]"><span>@dr["topicname"]</span></a></div>
+        <p class="card-text">@dr["description"]</p>
+        <span>@dr["created"]</span>
+    </div>
+</div>
+
+}
+
+<div id="usertopicfollowingmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Followed Topics</h5>
+                <button id="usertopicfollowingmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="usertopicfollowingmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userfollowingmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Followed Users</h5>
+                <button id="userfollowingmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="userfollowingmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userfollowersmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Followers</h5>
+                <button id="userfollowersmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="userfollowersmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userlikesmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Liked Posts</h5>
+                <button id="userlikesmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="userlikesmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="usercommentsmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Comments</h5>
+                <button id="usercommentsmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="usercommentsmodalbody" class="modal-body jsmodal">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/getusertopicfollowing.js"></script>
+<script src="~/js/getuserfollowing.js"></script>
+<script src="~/js/getuserfollowers.js"></script>
+<script src="~/js/getuserlikes.js"></script>
+<script src="~/js/getusercomments.js"></script>
+
+
+@if (ViewData["idonly"] as string == ViewData["rid"] as string)
+{
+<div id="deleteprofilemodal" class="modal popupmodal" tabindex="-1" role="dialog">
+    <div id="deleteprofilemodalinner" class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete profile</h5>
+                <button id="deleteprofilemodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteprofilebutton" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="deleteprofileform" class="Hidden" action="/users/delete/@ViewData["rid"]" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit">Submit</button>
+</form>
+<script src="~/js/deleteprofile.js"></script>
+}
+
+<div id="datauserid" class="Hidden" data-user-id="@ViewData["rid"]"></div>
+@if (ViewData["isAuthenticated"] as string == "true" && ViewData["idonly"] as string != ViewData["rid"] as string)
+{
+<script src="~/js/userfollowunfollow.js"></script>
+
+}

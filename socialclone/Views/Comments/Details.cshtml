@@ -1,0 +1,53 @@
+@using System.Data;
+
+@{
+    ViewData["Title"] = "Comment";
+}
+
+
+<div class="card m-auto mb-15" style="width: 25rem;">
+    <div class="card-body">
+        <h5 class="card-title">@ViewData["description"]</h5>
+        <div class="mb-15"><a href="/users/details/@ViewData["userid"]" class="mr-3"><span>@ViewData["rusername"]</span></a><a href="/posts/details/@ViewData["postid"]"><span>@ViewData["postid"]</span></a></div>
+
+        <span class="mb-12 block">@ViewData["created"]</span>
+        @if (ViewData["idonly"] as string == ViewData["userid"] as string)
+        {
+        <div><button id="deletecommentmodaltoggleopen" class="btn btn-danger">Delete</button></div>
+        }
+    </div>
+</div>
+
+@if (ViewData["idonly"] as string == ViewData["userid"] as string)
+{
+    <div id="deletecommentmodal" class="modal popupmodal" tabindex="-1" role="dialog">
+        <div id="deleteprofilemodalinner" class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete comment</h5>
+                    <button id="deletecommentmodaltoggleclose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button id="deletecommentbutton" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="deletecommentform" class="Hidden" action="/comments/delete/@ViewData["rid"]" method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit">Submit</button>
+    </form>
+    <script src="~/js/deletecomment.js"></script>
+}
+
+
+
+
+
+
+
+
+
+

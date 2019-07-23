@@ -1,0 +1,23 @@
+﻿@using System.Data;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+ 
+
+@foreach(DataRow dr in (ViewData["rows"] as DataRowCollection)){
+    <div class="card m-auto mb-15" style="width: 25rem;">
+        <a href="/posts/details/@dr["id"]"><img src="@dr["imageurl"]" class="card-img-top" alt="..."></a>
+        <div class="card-body">
+            <a href="/posts/details/@dr["id"]">
+                <h5 class="card-title">@dr["name"]</h5>
+            </a>
+                <div class="mb-15"><a href="/users/details/@dr["userid"]" class="mr-3"><span>@dr["username"]</span></a><a href="/topics/details/@dr["topicid"]"><span>@dr["topicname"]</span></a></div>
+                <p class="card-text">@dr["description"]</p>
+                <span>@dr["created"]</span>
+        </div>
+    </div>
+
+}
+         
